@@ -5,31 +5,18 @@ from nltk.tokenize import word_tokenize
 
 nltk.download('punkt')
 nltk.download('stopwords')
-print(stopwords.words('english'))
+-------------------------------
 
---------------------------------------------
-
-document = """This is a sample sentence, showing off the stop words filtration."""
-
-------------------------------------
+document = """Engineering is 4 year long gap to decide what to do in life."""
+---------------------------------
 
 words = word_tokenize(document)
-print(words)
-
-----------------------------------------
-
 stop_words = set(stopwords.words('english'))
 filtered_words = [word for word in words if word.lower() not in stop_words]
-print(filtered_words)
-
-------------------------------------------
-
 stemmer = PorterStemmer()
 stemmed_words = [stemmer.stem(word) for word in filtered_words]
-print(stemmed_words)
-
---------------------------------------------------------------
-
 preprocessed_text = ' '.join(stemmed_words)
-print("Original Text:",document)
-print("\nPreprocessed Text:",preprocessed_text)
+----------------------------------------
+
+print("Original Text:", document)
+print("\nPreprocessed Text:", preprocessed_text)
