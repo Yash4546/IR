@@ -1,53 +1,22 @@
+from collections import defaultdict
+
 documents = {
-    1: "The quick brown fox jumped over the lazy dog.",
-    2: "The lazy dog slept in the sun.",
+    1: "Engineering is a myth just like democracy does",
+    2: "We sell different parts of ourselves",
+    3: "Terrorism is fun unless it's not happening near our house",
+    4: "Ohh dear"
 }
 
----------------------------------------------
+inverted_index = defaultdict(list)
+for doc_id, text in documents.items():
+    for token in text.lower().split():
+        inverted_index[token].append(doc_id)
 
-import re
+query = input("Enter your query : ")
+matching_doc_ids = set(inverted_index.get(query.lower(), []))
 
-def tokenize(text):
-    words = re.findall(r'\w+', text.lower())
-    return set(words)
-tokenized_documents = {doc_id: tokenize(text) for doc_id, text in documents.items()}
-tokenized_documents
-
-------------------------------------------------
-
-inverted_index = {}
-
-for doc_id, words in tokenized_documents.items():
-    for word in words:
-        if word not in inverted_index:
-            inverted_index[word] = [doc_id]
-        else:
-            inverted_index[word].append(doc_id)
-
-inverted_index
-
--------------------------------------------------
-
-def retrieve_documents(query):
-    query_words = tokenize(query)
-    matching_doc_ids = set()
-
-    for word in query_words:
-        if word in inverted_index:
-            matching_doc_ids.update(inverted_index[word])
-
-    if matching_doc_ids:
-        matching_documents = {doc_id: documents[doc_id] for doc_id in matching_doc_ids}
-        return matching_documents
-    else:
-        return None
-
-
-query = "Sun is very bright Today"
-retrieved_docs = retrieve_documents(query)
-
-if retrieved_docs:
-    for doc_id, doc_text in retrieved_docs.items():
-        print(f"Document {doc_id}: {doc_text}")
+if matching_doc_ids:
+    for doc_id in matching_doc_ids:
+        print(f"Document {doc_id}: {documents[doc_id]}")
 else:
-    print("No matching documents found.")
+    print(f"No matching documents found for the query: {query}")
